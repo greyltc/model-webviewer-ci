@@ -8,13 +8,23 @@ name: Generate Release
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: greyltc/archlinux-aur
+    container:
+      image: greyltc/archlinux-aur
+      volumes: 
+        - my_docker_volume:/volume_mount
     steps:
-         - run: |
-             sed -i "s,^PKGEXT=.*,PKGEXT='.pkg.tar.zst',g" /etc/makepkg.conf
-             sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm aurvote'
-             file /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst
+      - name: Build in docker
+        run: |
+          sed -i "s,^PKGEXT=.*,PKGEXT='.pkg.tar.zst',g" /etc/makepkg.conf
+          sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm aurvote'
+          cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /volume_mount
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: pakage
+          path: my_docker_volume/*.pkg.tar.zst
   release:
+    needs: build
     name: Create Release
     runs-on: ubuntu-latest
     steps:
@@ -28,6 +38,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CUSTOM_TAG: v${{ env.TODAY }}.0.${{ github.run_number }}
+      - name: Get artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: package
+      - shell: bash
+        run: |
+          file *.pkg.tar.zst
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
