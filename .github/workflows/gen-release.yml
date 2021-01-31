@@ -13,7 +13,7 @@ jobs:
          - run: |
              sed -i "s,^PKGEXT=.*,PKGEXT='.pkg.tar.zst',g" /etc/makepkg.conf
              sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm aurvote'
-             file /var/
+             file /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst
   release:
     name: Create Release
     runs-on: ubuntu-latest
