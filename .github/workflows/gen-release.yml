@@ -12,11 +12,11 @@ jobs:
     container:
       image: greyltc/archlinux-aur
     steps:
-      - name: Build in docker
+      - name: Build with Arch in docker
         run: |
           sed -i "s,^PKGEXT=.*,PKGEXT='.pkg.tar.zst',g" /etc/makepkg.conf
           sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm occt-webgl-viewer'
-          cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst ${HOME}
+          cp /var/cache/makepkg/pkg/*.pkg.tar.zst ${HOME}
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
