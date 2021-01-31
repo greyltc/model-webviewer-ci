@@ -7,8 +7,15 @@ name: Generate Release
 
 jobs:
   build:
+    runs-on: ubuntu-latest
+    container: greyltc/archlinux-aur
+    steps:
+         - run: |
+             sed -i "s,^PKGEXT=.*,PKGEXT='.pkg.tar.zst',g" /etc/makepkg.conf
+             sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm aurvote'
+  release:
     name: Create Release
-    runs-on: greyltc/archlinux-aur
+    runs-on: ubuntu-latest
     steps:
       - name: Get current date
         id: date
