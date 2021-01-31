@@ -32,7 +32,6 @@ jobs:
           pwd
           ls -al
           ls -al /__w/model-webviewer-ci/
-          docker ps -a --format '{{ .ID }}' | xargs -I {} docker inspect -f '{{ .Name }}{{ printf "\n" }}{{ range .Mounts }}{{ printf "\n\t" }}{{ .Type }} {{ if eq .Type "bind" }}{{ .Source }}{{ end }}{{ .Name }} => {{ .Destination }}{{ end }}{{ printf "\n" }}' {}
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
