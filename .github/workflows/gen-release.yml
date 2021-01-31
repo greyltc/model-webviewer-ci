@@ -30,12 +30,12 @@ jobs:
           mount
           pwd
           ls -al
-          ls -al /__w/model-webviewer-ci/
+          ls -al /__w/model-webviewer-ci/model-webviewer-ci
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
           name: pakage
-          path: /package_dir/*
+          path: /__w/model-webviewer-ci/model-webviewer-ci
   release:
     needs: build
     name: Create Release
