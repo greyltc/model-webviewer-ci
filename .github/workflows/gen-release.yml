@@ -46,7 +46,10 @@ jobs:
           ls -al
           tar -I zstd -xvf *.tar.zst
           #zip -r www.zip usr
-          zip -r www.zip opt/occt-webgl-viewer/usr/local/*
+          pushd opt/occt-webgl-viewer/usr/local
+          zip -r www.zip *
+          popd
+          mv opt/occt-webgl-viewer/usr/local/www.zip .
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
