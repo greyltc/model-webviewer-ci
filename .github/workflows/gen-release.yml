@@ -15,8 +15,8 @@ jobs:
       - name: Build with Arch in docker
         run: |
           sed -i "s,^PKGEXT=.*,PKGEXT='.pkg.tar.zst',g" /etc/makepkg.conf
-          sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm occt-webgl-viewer'
-          #sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm aurvote'
+          #sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm occt-webgl-viewer'
+          sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm aurvote'
           cp /var/cache/makepkg/pkg/*.pkg.tar.zst ${HOME}
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
@@ -45,8 +45,8 @@ jobs:
           sudo apt-get install zstd
           ls -al
           tar -I zstd -xvf *.tar.zst
-          #zip -r usr.zip usr
-          zip -r www.zip opt/occt-webgl-viewer/usr/local/*
+          zip -r www.zip usr
+          #zip -r www.zip opt/occt-webgl-viewer/usr/local/*
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
