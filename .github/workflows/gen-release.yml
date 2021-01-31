@@ -61,3 +61,4 @@ jobs:
         with:
           files: '*.tar.zst;usr.zip'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          release-tag: v${{ env.TODAY }}.0.${{ github.run_number }}
