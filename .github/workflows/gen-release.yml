@@ -13,6 +13,7 @@ jobs:
          - run: |
              sed -i "s,^PKGEXT=.*,PKGEXT='.pkg.tar.zst',g" /etc/makepkg.conf
              sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm aurvote'
+             file /var/
   release:
     name: Create Release
     runs-on: ubuntu-latest
@@ -22,12 +23,18 @@ jobs:
         run: echo "TODAY=$(date +'%Y%m%d')" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Tag
+        uses: anothrNick/github-tag-action@1.34.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CUSTOM_TAG: v${{ env.TODAY }}.0.${{ github.run_number }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          tag_name: v${{ env.TODAY }}.0.${{ github.run_number }}
           release_name: Release ${{ env.TODAY }}.0.${{ github.run_number }}
           draft: false
           prerelease: false
