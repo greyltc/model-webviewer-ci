@@ -11,7 +11,7 @@ jobs:
     container:
       image: greyltc/archlinux-aur
       volumes: 
-        - my_docker_volume:/volume_mount
+        - package_dir:/volume_mount
     steps:
       - name: Build in docker
         run: |
@@ -22,7 +22,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: pakage
-          path: my_docker_volume/*.pkg.tar.zst
+          path: package_dir
   release:
     needs: build
     name: Create Release
@@ -44,7 +44,7 @@ jobs:
           name: package
       - shell: bash
         run: |
-          file *.pkg.tar.zst
+          ls -al
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
