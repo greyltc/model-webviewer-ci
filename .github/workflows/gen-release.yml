@@ -20,22 +20,24 @@ jobs:
         run: |
           sed -i "s,^PKGEXT=.*,PKGEXT='.pkg.tar.zst',g" /etc/makepkg.conf
           sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm aurvote'
-          cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /github/home
-          cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /github/workflow
-          cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /volume_mount
-          cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /__w/_actions
-          cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /__w/_temp
-          cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /__w
-          ls -al /volume_mount
-          ls -al /github/workflow
-          ls -al /github/home
+          cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst ${HOME}
+          #cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /github/home
+          #cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /github/workflow
+          #cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /volume_mount
+          #cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /__w/_actions
+          #cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /__w/_temp
+          #cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /__w
+          #ls -al /volume_mount
+          #ls -al /github/workflow
+          #ls -al /github/home
       - shell: bash
         run: |
           uname -a
           mount
           pwd
-          ls -al
+          echo "/github/home = "
           ls -al /github/home || :
+          echo "/github/workflow = "
           ls -al /github/workflow || :
           ls -al /__w/model-webviewer-ci/model-webviewer-ci || :
           ls -al /home/runner/work || :
@@ -47,7 +49,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: pakage
-          path: /home/runner/work
+          path: /github/home/*pkg.tar.zst
   release:
     needs: build
     name: Create Release
