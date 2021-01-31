@@ -11,40 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: greyltc/archlinux-aur
-      #options: -v /__w/model-webviewer-ci/model-webviewer-ci:/volume_mount:rw
-      #options: -v package_dir:/volume_mount:rw
-      #volumes: 
-      #  - /package_dir:/volume_mount
     steps:
       - name: Build in docker
         run: |
           sed -i "s,^PKGEXT=.*,PKGEXT='.pkg.tar.zst',g" /etc/makepkg.conf
           sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm aurvote'
           cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst ${HOME}
-          #cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /github/home
-          #cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /github/workflow
-          #cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /volume_mount
-          #cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /__w/_actions
-          #cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /__w/_temp
-          #cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /__w
-          #ls -al /volume_mount
-          #ls -al /github/workflow
-          #ls -al /github/home
-      - shell: bash
-        run: |
-          uname -a
-          mount
-          pwd
-          echo "/github/home = "
-          ls -al /github/home || :
-          echo "/github/workflow = "
-          ls -al /github/workflow || :
-          ls -al /__w/model-webviewer-ci/model-webviewer-ci || :
-          ls -al /home/runner/work || :
-          ls -al /home/runner/work/_temp || :
-          ls -al /home/runner/work/_actions  || :
-          ls -al /home/runner/work/_temp/_github_home || :
-          ls -al /home/runner/work/_temp/_github_workflow || :
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
