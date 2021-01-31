@@ -20,7 +20,7 @@ jobs:
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: pakage
+          name: package
           path: /github/home/*pkg.tar.zst
   release:
     needs: build
