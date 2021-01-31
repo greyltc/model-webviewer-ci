@@ -15,7 +15,7 @@ jobs:
       - name: Build in docker
         run: |
           sed -i "s,^PKGEXT=.*,PKGEXT='.pkg.tar.zst',g" /etc/makepkg.conf
-          sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm aurvote'
+          sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm occt-webgl-viewer'
           cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst ${HOME}
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
@@ -44,8 +44,9 @@ jobs:
           sudo apt-get install zstd
           ls -al
           tar -I zstd -xvf *.tar.zst
-          tree
-          zip -r usr.zip usr
+          #tree
+          #zip -r usr.zip usr
+          zip -r www.zip opt/occt-webgl-viewer/usr/local/*
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -59,6 +60,6 @@ jobs:
       - name: Attach assets to release
         uses: AButler/upload-release-assets@v2.0
         with:
-          files: '*.tar.zst;usr.zip'
+          files: '*.tar.zst;www.zip'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           release-tag: v${{ env.TODAY }}.0.${{ github.run_number }}
