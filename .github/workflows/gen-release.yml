@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: greyltc/archlinux-aur
-      #options: -v /package_dir:/volume_mount:rw
-      volumes: 
-        - /package_dir:/volume_mount
+      options: -v package_dir:/volume_mount:rw
+      #volumes: 
+      #  - /package_dir:/volume_mount
     steps:
       - name: Build in docker
         run: |
