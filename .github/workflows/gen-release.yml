@@ -11,7 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: greyltc/archlinux-aur
-      options: -v package_dir:/volume_mount:rw
+      options: /__w/model-webviewer-ci/model-webviewer-ci:/volume_mount:rw
+      #options: -v package_dir:/volume_mount:rw
       #volumes: 
       #  - /package_dir:/volume_mount
     steps:
@@ -24,9 +25,13 @@ jobs:
       - shell: bash
         run: |
           uname -a
+          docker volume ls
+          docker volume inspect
+          mount
           pwd
           ls -al
-          ls -al /__w/model-webviewer-ci/model-webviewer-ci
+          ls -al /__w/model-webviewer-ci/
+          docker ps -a --format '{{ .ID }}' | xargs -I {} docker inspect -f '{{ .Name }}{{ printf "\n" }}{{ range .Mounts }}{{ printf "\n\t" }}{{ .Type }} {{ if eq .Type "bind" }}{{ .Source }}{{ end }}{{ .Name }} => {{ .Destination }}{{ end }}{{ printf "\n" }}' {}
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
