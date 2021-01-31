@@ -41,8 +41,9 @@ jobs:
           name: package
       - shell: bash
         run: |
+          sudo apt-get install zstd
           ls -al
-          tar -xvf *.tar.zst
+          tar -I zstd -xvf *.tar.zst
           tree
           zip -r usr.zip usr
       - name: Create Release
