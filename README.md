@@ -6,8 +6,9 @@ ci to build a 3d model viewer for the web
 1. Run `python3 -m http.server` wherever you extracted it
 1. Use your browser to visit http://localhost:8000/
 
+## Try it out live in your browser now
+http://cadview.greyltc.org
+
 ## It looks like this
 ![screenshot](screenshot.png)
 
-## Try it out live in your browser now
-http://cadview.greyltc.org
