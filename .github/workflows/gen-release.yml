@@ -26,9 +26,6 @@ jobs:
       - shell: bash
         run: |
           uname -a
-          docker volume ls
-          docker volume inspect
-          mount
           pwd
           ls -al
           ls -al /__w/model-webviewer-ci/
