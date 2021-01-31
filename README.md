@@ -1,3 +1,4 @@
+![Generate Release](https://github.com/greyltc/model-webviewer-ci/workflows/Generate%20Release/badge.svg)
 # model-webviewer-ci
 ci to build a 3d model viewer for the web
 
