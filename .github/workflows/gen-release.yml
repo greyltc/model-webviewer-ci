@@ -7,6 +7,7 @@ name: Generate Release
 
 jobs:
   build:
+    name: Build package
     runs-on: ubuntu-latest
     container:
       image: greyltc/archlinux-aur
@@ -18,6 +19,11 @@ jobs:
           sed -i "s,^PKGEXT=.*,PKGEXT='.pkg.tar.zst',g" /etc/makepkg.conf
           sudo -u aurbuilder -D~ bash -c 'yay -Syu --removemake --needed --noprogressbar --noconfirm aurvote'
           cp /var/aurbuilder/.cache/yay/aurvote/*.pkg.tar.zst /volume_mount
+      - shell: bash
+        run: |
+          uname -a
+          ls -al
+          ls -al package_dir
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
