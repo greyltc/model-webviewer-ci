@@ -35,12 +35,14 @@ jobs:
           mount
           pwd
           ls -al
-          ls -al /__w/model-webviewer-ci/model-webviewer-ci
-          ls -al /home/runner/work
-          ls -al /home/runner/work/_temp
-          ls -al /home/runner/work/_actions
-          ls -al /home/runner/work/_temp/_github_home
-          ls -al /home/runner/work/_temp/_github_workflow
+          ls -al /github/home || :
+          ls -al /github/workflow || :
+          ls -al /__w/model-webviewer-ci/model-webviewer-ci || :
+          ls -al /home/runner/work || :
+          ls -al /home/runner/work/_temp || :
+          ls -al /home/runner/work/_actions  || :
+          ls -al /home/runner/work/_temp/_github_home || :
+          ls -al /home/runner/work/_temp/_github_workflow || :
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
